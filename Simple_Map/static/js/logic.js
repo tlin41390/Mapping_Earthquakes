@@ -1,6 +1,3 @@
-//Add console.log to check to see if our code is working
-let map = L.map('mapid').setView([30, -30],2);
-
 // create tile layer that is the background of the map.
 // We create the tile layer that will be the background of our map.
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -20,16 +17,12 @@ let baseMaps = {
     Dark: dark
 };
 
-let view = L.map('mapid',{
+let map = L.map('mapid',{
     center: [30,30],
     zoom: 2,
     layers: [streets]   
 })
-
-L.control.layers(baseMaps).addTo(view);
-// Then we add our 'graymap' tile layer to the map.
-streets.addTo(map);
-
+L.control.layers(baseMaps).addTo(map);
 //Accessing the airport GeoJSON URL
 let airportData = "https://raw.githubusercontent.com/tlin41390/Mapping_Earthquakes/main/majorAirports.json";
 
