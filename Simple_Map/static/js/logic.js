@@ -31,7 +31,7 @@ d3.json(torontoData).then(function(data){
     console.log(data);
     //Create GeoJSON layer with the retrieved data.
     L.geoJson(data,{
-        color: "#ffffa1",
+        color: "yellow",
         weight: 2,
         onEachFeature: function(feature, layer){
             layer.bindPopup("<h3> Airline: "+ feature.properties.airline+ "</h3> <hr><h3> Destination: "
