@@ -18,24 +18,14 @@ let baseMaps = {
 };
 
 let map = L.map('mapid',{
-    center: [43.7,-79.3],
+    center: [39.5,-98.5,3],
     zoom: 2,
-    layers: [satelliteStreets]   
+    layers: [streets]   
 })
 L.control.layers(baseMaps).addTo(map);
 
-//Accessing the Toronto airline routes GeoJSON URL.
-let torontoHoods = "https://raw.githubusercontent.com/tlin41390/Mapping_Earthquakes/main/torontoNeighborhoods.json"
 //Grabbing our GeoJSON data.
-d3.json(torontoHoods).then(function(data){
-    console.log(data);
-    //Create GeoJSON layer with the retrieved data.
-    L.geoJSON(data,{
-        fillColor:"yellow",
-        color:"yellow",
-        weight:1,
-        onEachFeature: function(feature,layer){
-            layer.bindPopup("<h3> Neighborhood: "+feature.properties.AREA_NAME+ "</h3>")
-        }
-    }).addTo(map);
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
+    //Creating GeoJSON layer with the retrieved data.
+    L.geoJSON(data).addTo(map);
 });

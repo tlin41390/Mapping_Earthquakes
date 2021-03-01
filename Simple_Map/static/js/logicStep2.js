@@ -18,24 +18,40 @@ let baseMaps = {
 };
 
 let map = L.map('mapid',{
-    center: [43.7,-79.3],
+    center: [39.5,-98.5,3],
     zoom: 2,
-    layers: [satelliteStreets]   
+    layers: [streets]   
 })
 L.control.layers(baseMaps).addTo(map);
 
-//Accessing the Toronto airline routes GeoJSON URL.
-let torontoHoods = "https://raw.githubusercontent.com/tlin41390/Mapping_Earthquakes/main/torontoNeighborhoods.json"
 //Grabbing our GeoJSON data.
-d3.json(torontoHoods).then(function(data){
-    console.log(data);
-    //Create GeoJSON layer with the retrieved data.
-    L.geoJSON(data,{
-        fillColor:"yellow",
-        color:"yellow",
-        weight:1,
-        onEachFeature: function(feature,layer){
-            layer.bindPopup("<h3> Neighborhood: "+feature.properties.AREA_NAME+ "</h3>")
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
+    //Creating GeoJSON layer with the retrieved data.
+    function styleInfo(feature){
+        return {
+            opacity: 1,
+            fillOpacity: 1,
+            fillColor: "#ffae42",
+            color: "#000000",
+            radius: getRadius(),
+            stroke: true,
+            weight: 0.5
+        };
+    }
+
+    function getRadius(magnitude){
+        if(magnitude === 0 ){
+            return 1;
         }
+        return magnitude *4;
+    }
+    L.geoJSON(data,{
+        //We turn each feature into a circle Marker on map.
+        pointToLayer: function(feature, latlng){
+            console.log(data);
+            return L.circleMarker(latlng);
+        },
+        //set the style for each circle Marke using styleInfo function.
+        style: styleInfo
     }).addTo(map);
 });
